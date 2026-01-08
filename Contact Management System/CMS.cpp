@@ -46,7 +46,11 @@ bool add(contact* conptr) {
 				return false;
 			}
 		}
-
+		/*在C++中，输入验证的最佳实践是：
+			1.对于任何输入，先检查cin是否成功
+			2.如果cin失败，清除错误状态并清理输入缓冲区
+			3.然后提示用户重新输入*/
+		/*这段也能成功完成功能，但没有遵循C++输入验证的最佳实践
 		cout << "Please enter the sex(M/F):";
 		while (cin >> conptr->personArray[conptr->size].sex) {
 			if ((conptr->personArray[conptr->size].sex == "M") || (conptr->personArray[conptr->size].sex == "F")) {
@@ -58,7 +62,24 @@ bool add(contact* conptr) {
 				clean_input_buffer();
 				cout << "Invalid input, please enter again!\nPlease enter the sex(M/F):";
 			}
+		}*/
+		cout << "Please enter the sex(M/F):";
+		while (true) {
+			if (cin >> conptr->personArray[conptr->size].sex && ((conptr->personArray[conptr->size].sex == "M") || (conptr->personArray[conptr->size].sex == "F"))) 
+			{
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				break;
+			}
+			else {
+				clean_input_buffer();
+				cout << "Invalid input, please enter again!\nPlease enter the sex(M/F):";
+			}
 		}
+
+
+
+
+
 		//	cin >> age; while (!cin >> age) 实际上是先读一次，再用括号优先级导致的 while (!(cin >> age))，而且 fail 状态没有在成功后清理。
 		/*cout << "Please enter the age:";
 		cin >> conptr->personArray[conptr->size].age;
@@ -220,8 +241,8 @@ bool modify(contact* conptr) {
 					string new_sex;
 					cout << "Please enter the new sex(M/F):";
 					while (true) {
-						getline(cin, new_sex);
-						if ((new_sex == "M") || (new_sex == "F")) {
+						//统一用一个循环同时做输入和范围校验，成功后清空换行；失败时清理流并重新提示。
+						if (cin>> new_sex &&((new_sex == "M") || (new_sex == "F"))) {
 							conptr->personArray[i].sex = new_sex;
 							cout << "Modify successfully!\n\n";
 							break;

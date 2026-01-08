@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Contact Management System/Contact Management System.vcxproj" />
+  <Project Path="Contact Management System/Contact Management System.vcxproj" Id="f56a61dd-80f6-4b8e-b37c-360baead4d43" />
 </Solution>
